@@ -12,39 +12,15 @@ import org.springframework.web.client.RestTemplate;
 public class MovieController {
 
     @Autowired
-    private MovieRepository movieRepository;
-
-    @Autowired
-    private MovieService movieService;
-
-    @GetMapping("/greetings")
-    public String Greetings(){
-        return "Hello World";
-    }
+    MovieService movieService;
 
     @GetMapping("/movies/search/{keyword}")
     public ResponseEntity searchMovie(@PathVariable String keyword) {
-        return ResponseEntity.status(HttpStatus.OK).body(movieService.getSearchedMovie(keyword));
-    }
-    /*
-    @GetMapping("/get-books")
-    public ResponseEntity<List<Book>> getBooks(){
-        try{
-            List<Book> books = new ArrayList<>();
-            bookRepo.findAll().forEach(books::add);
-            if(books.isEmpty()){
-                return new ResponseEntity<>(books,HttpStatus.NO_CONTENT);
-            }
-            return (ResponseEntity<List<Book>>) books;
-        }
-        catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return new ResponseEntity(movieService.getSearchMovie(keyword), HttpStatus.OK);
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Book> create(@RequestBody Book book){
-        Book bookObj = bookRepo.save(book);
-        return new ResponseEntity<>(bookObj,HttpStatus.CREATED);
-    } */
+    @GetMapping("/movies")
+    public ResponseEntity getMovies() {
+        return new ResponseEntity(movieService.getMovies(), HttpStatus.OK);
+    }
 }
